@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Injectable, CanActivate, ForbiddenException, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { JwtAuthGuard } from './jwt-auth.guard'; // Asegúrate de que tienes un guard de JWT
