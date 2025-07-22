@@ -1,9 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import * as express from 'express';
-import { join, resolve } from 'path';
-import { DataSource } from 'typeorm';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,20 +19,8 @@ async function bootstrap() {
     }),
   );
 
-  const frontendPath = join(__dirname, '..', '..', 'frontend', 'build');
-  app.use(express.static(frontendPath));
-
-  const expressApp = app.getHttpAdapter().getInstance();
-  expressApp.get(/^(?!\/api).*/, (req: any, res: any) => {
-    res.sendFile(join(frontendPath, 'index.html'));
-  });
-
-  process.on('uncaughtException', (err) => {
-    console.error('🔥 uncaughtException:', err);
-  });
-
-  await app.listen(3001);
-  console.log(`http://localhost:3001`);
+  await app.listen(process.env.PORT || 3060);
+  console.log(`Servidor escuchando en puerto ${process.env.PORT || 3060}`);
 }
 bootstrap();
 

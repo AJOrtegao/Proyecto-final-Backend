@@ -21,12 +21,17 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { sub: user.id || user._id, email: user.email, role: user.role };
+    const payload = {
+      sub: user.id || user._id,
+      email: user.email,
+      role: user.role,
+    };
     const token = this.jwtService.sign(payload);
 
     return {
       access_token: token,
       user: {
+        id: user.id || user._id,
         name: user.name,
         email: user.email,
         role: user.role,
@@ -35,8 +40,17 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto) {
+    const existingUsers = await this.usersService.findAll();
+    const isAdmin =
+      existingUsers.length === 0 ||
+      createUserDto.email === 'admin@farmathony.com';
+
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    return this.usersService.create({ ...createUserDto, password: hashedPassword });
+
+    return this.usersService.create({
+      ...createUserDto,
+      password: hashedPassword,
+      role: isAdmin ? 'admin' : 'user',
+    });
   }
 }
-
