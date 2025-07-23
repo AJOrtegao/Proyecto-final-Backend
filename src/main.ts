@@ -9,7 +9,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000', 
       'http://localhost:3001',
-      'https://proyecto-final-frontend-two.vercel.app'],
+      'https://proyecto-final-frontend-ivory.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
