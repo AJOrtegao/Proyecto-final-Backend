@@ -11,6 +11,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
+  // Validación de usuario en login
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
     if (user && (await bcrypt.compare(pass, user.password))) {
@@ -20,6 +21,7 @@ export class AuthService {
     return null;
   }
 
+  
   async login(user: any) {
     const payload = {
       sub: user.id || user._id,
@@ -39,18 +41,24 @@ export class AuthService {
     };
   }
 
+  
   async register(createUserDto: CreateUserDto) {
+    
     const existingUsers = await this.usersService.findAll();
-    const isAdmin =
-      existingUsers.length === 0 ||
-      createUserDto.email === 'admin@farmathony.com';
 
+    
+    const isAdmin = existingUsers.length === 0 || createUserDto.email === 'admin@farmathony.com';
+
+    
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    return this.usersService.create({
+    
+    const newUser = await this.usersService.create({
       ...createUserDto,
       password: hashedPassword,
-      role: isAdmin ? 'admin' : 'user',
+      role: isAdmin ? 'admin' : 'user', 
     });
+
+    return newUser;
   }
 }

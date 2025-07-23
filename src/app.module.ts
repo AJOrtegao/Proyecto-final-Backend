@@ -28,6 +28,7 @@ import { PaymentsModule } from './payments/payments.module';
       database: process.env.POSTGRES_DB,
       entities: [Order, OrderItem, Product, User, Payment],
       synchronize: true,
+      ssl: process.env.NODE_ENV === 'production' 
     }),
 
     MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/farmacia'),
