@@ -21,6 +21,7 @@ import { PaymentsModule } from './payments/payments.module';
 
     TypeOrmModule.forRoot({
       type: 'postgres',
+      url: process.env.DATABASE_PUBLIC_URL,
       host: process.env.POSTGRES_HOST,
       port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
       username: process.env.POSTGRES_USER,
@@ -28,7 +29,9 @@ import { PaymentsModule } from './payments/payments.module';
       database: process.env.POSTGRES_DB,
       entities: [Order, OrderItem, Product, User, Payment],
       synchronize: true,
-      ssl: process.env.NODE_ENV === 'production' 
+      ssl: {
+        rejectUnauthorized: true, 
+    },
     }),
 
     MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/farmacia'),
