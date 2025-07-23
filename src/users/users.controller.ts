@@ -25,7 +25,7 @@ export class UsersController {
 
   @Get(':id')
   async getUserById(@Param('id') id: string) {
-    const user = await this.usersService.findById(Number(id));
+    const user = await this.usersService.findById(id);
     if (!user) {
       throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
     }

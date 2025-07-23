@@ -21,7 +21,7 @@ export class OrdersService {
   ) {}
 
   async create(userId: number, createOrderDto: CreateOrderDto): Promise<Order> {
-    const user = await this.usersService.findById(userId);
+    const user = await this.usersService.findById(userId.toString());
     if (!user) {
       throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
     }
